@@ -2,8 +2,8 @@ import logging
 import random
 import yaml
 
-from src.dice import DiceRoll, roll
-import src.dice
+from scry.src.dice import DiceRoll, roll
+import scry.src.dice as dice
 
 
 class Data:
@@ -33,8 +33,8 @@ class CastInstance:
         pass
 
     def roll_to_hit(self):
-        r1 = src.dice.roll('1d20') + self.spell_attack_mod
-        r2 = src.dice.roll('1d20') + self.spell_attack_mod
+        r1 = dice.roll('1d20') + self.spell_attack_mod
+        r2 = dice.roll('1d20') + self.spell_attack_mod
         self.roll = r1
         self.advantage = max(r1, r2)
         self.disadvantage = min(r1, r2)
