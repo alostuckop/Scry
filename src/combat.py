@@ -3,13 +3,52 @@ import random
 import yaml
 
 from src.dice import DiceRoll, roll
+import src.dice
 
 
 class Data:
-    def __init__(self):
-        self.spellfile = open("static/Data/spells.yml")
+    def __init__(self, yamlfile):
+        self.spellfile = open(yamlfile)
         self.spells = yaml.load(self.spellfile, Loader=yaml.FullLoader)
 
+class CastInstance:
+    def __init__(self, spell, casting_level):
+        self.spell = spell
+        self.level = casting_level
+        self.spell_attack_mod = 7
+        if self.determine_type():
+            self.save()
+        else:
+            self.roll_to_hit()
+        self.calc_damage()
+
+    def determine_type(self):
+        if self.spell['damage']['save']:
+            self.type = 'save'
+        else:
+            self.type = 'damage'
+        return self.spell['damage']['save']
+
+    def save(self):
+        pass
+
+    def roll_to_hit(self):
+        r1 = src.dice.roll('1d20') + self.spell_attack_mod
+        r2 = src.dice.roll('1d20') + self.spell_attack_mod
+        self.roll = r1
+        self.advantage = max(r1, r2)
+        self.disadvantage = min(r1, r2)
+
+    def calc_damage(self):
+        if self.spell['damage']['scale']:
+            dicestr_dmg = self.spell['damage']['scale'][self.level]
+            if 'M' in dicestr_dmg:
+                dicestr_dmg = dicestr_dmg.replace('M', str(self.spell_attack_mod))
+            if 'M' in dicestr_dmg:
+                dicestr_dmg = dicestr_dmg.replace('L', str(self.level))
+        else:
+            dicestr_dmg = self.spell['damage']['base']
+        self.damage = DiceRoll(dicestr_dmg)
 
 class Player:
     def __init__(self):
@@ -137,6 +176,6 @@ def action_menu():
 
 
 if __name__ == "__main__":
-    data = Data()
+    data = Data("static/Data/spells.yml")
     player = Player()
     action_menu()
