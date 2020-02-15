@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1>{{spell.name}} - Lv. {{attack.lvl}}</h1>
+<p>{{spell.dmg.base}} {{spell.dmg.type}} ({{spell.dmg.avg}})</p>
+<p>{{attack.roll}} to hit!</p>
+
+<b>Chained Lightning - {{spell.lvl}}</b>  (Lv 6) <br>
+10d8 Lightning (45.0) <br><br>
+
+... 24 to hit. [24/23] <br><br>
+
+<b>41</b> [1, 1, 1, 2, 4, 4, 6, 6, 8, 8] <br>
+Empower spell? 3 <br>
+<b>53</b> [3, 4, 8, 2, 4, 4, 6, 6, 8, 8] <br>
+{% endblock content %}

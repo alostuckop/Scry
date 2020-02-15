@@ -1,0 +1,5 @@
+Flask==1.1.1
+Jinja2==2.10.3
+natsort==6.2.0
+PyYAML==5.3
+requests==2.18.4
