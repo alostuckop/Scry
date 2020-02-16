@@ -25,6 +25,7 @@ class CastInstance:
     def determine_type(self):
         if self.spell['damage']['save']:
             self.type = 'save'
+            self.save_dc = '21'
         else:
             self.type = 'damage'
         return self.spell['damage']['save']
@@ -49,6 +50,12 @@ class CastInstance:
         else:
             dicestr_dmg = self.spell['damage']['base']
         self.damage = DiceRoll(dicestr_dmg)
+
+    def empower(self, n):
+        keep = self.damage.array[n:]
+        _, new = dice.roll('{}d{}'.format(n, self.damage.dicestr.dicetype), verbose=True)
+        self.damage.array = sorted(new) + keep
+        self.damage.result = sum(self.damage.array) + self.damage.dicestr.bonus
 
 class Player:
     def __init__(self):
@@ -83,7 +90,6 @@ class Player:
         if data.spells[spell]['damage']['save']:
             msg = "Make a {} {} save.".format(
                 data.spells[spell]['damage']['save'],
-                self.save_dc
             )
             if data.spells[spell]['damage']['fail_effect']:
                 fail_msg = " On fail: {}".format(

@@ -1,0 +1,14 @@
+
+{% extends "layout.html" %}
+{% block content %}
+  {% for resource in resources %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{resource.name}}</a>
+          <small class="text-muted">{{resource.count_available}}/{{resource.count_max}}</small>
+        </div>
+      </div>
+    </article>
+  {% endfor %}
+{% endblock content %}

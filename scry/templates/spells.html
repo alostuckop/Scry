@@ -1,4 +1,17 @@
 {% extends "layout.html" %}
 {% block content %}
-Spellbook.
+  {% for spell in spells %}
+    <article class="media content-section">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{spell.name}}</a>
+          <small class="text-muted">{{spell.base_level}}</small>
+        </div>
+        <p class="article-content">Casting Time: {{spell.casting_time_display}}</p>
+        <p class="article-content">Range: {{spell.range_display}}</p>
+        <p class="article-content">Duration: {{spell.duration_display}}</p>
+        <p class="article-content">{{spell.description}}</p>
+      </div>
+    </article>
+  {% endfor %}
 {% endblock content %}

@@ -18,12 +18,16 @@
           <div class="container">
             <div class="collapse navbar-collapse" id="navbarToggle">
               <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{{url_for('character')}}">{{name}}</a>
-                <a class="nav-item nav-link" href="{{url_for('spells')}}">Spells</a>
+                <a class="nav-item nav-link" href="{{url_for('character')}}">Desmond</a>
+                <a class="nav-item nav-link" href="{{url_for('actions')}}">Actions</a>
+                <a class="nav-item nav-link" href="{{url_for('spells')}}">Spellbook</a>
+                <a class="nav-item nav-link" href="{{url_for('resources')}}">Resources</a>
+                <a class="nav-item nav-link" href="{{url_for('effects')}}">Effects</a>
                 <a class="nav-item nav-link" href="{{url_for('inventory')}}">Inventory</a>
               </div>
               <div class="navbar-nav">
                 <a class="nav-item nav-link" href="{{url_for('log')}}">Combat Log</a>
+                <a class="nav-item nav-link" href="{{url_for('luck')}}">Luck</a>
               </div>
             </div>
           </div>
