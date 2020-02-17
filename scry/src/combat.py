@@ -1,11 +1,30 @@
 import logging
 import random
 import yaml
+import sys
 
 from scry.src.dice import DiceRoll, roll
 import scry.src.dice as dice
+from scry.models import Spell, CastInstance
+from scry import db
 
+def cast_spell(spell_name, level):
+    spell = Spell.query.filter_by(name=spell_name).first()
+    if level > spell.base_level and spell.at_higher_levels:
+        setattr(
+            eval(spell.at_higher_levels_obj['obj']),
+            spell.at_higher_levels_obj['attr'],
+            spell.at_higher_levels_obj[str(level)],
+        )
+    cast = CastInstance(spell=spell,
+        level=level,
+        # roll=dice.roll(spell.damage.dicestring),
+        roll=spell.damage.dicestring
+    )
+    db.session.add(cast)
+    db.session.commit()
 
+'''
 class CastInstance:
     def __init__(self, spell, casting_level):
         self.spell = spell
@@ -51,6 +70,7 @@ class CastInstance:
         _, new = dice.roll('{}d{}'.format(n, self.damage.dicestr.dicetype), verbose=True)
         self.damage.array = sorted(new) + keep
         self.damage.result = sum(self.damage.array) + self.damage.dicestr.bonus
+'''
 
 class Player:
     def __init__(self):

@@ -1,44 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-  {% if cast.type == 'damage' %}
+  {% for cast in casts %}
       <article class="media content-section">
         <div class="media-body">
           <div class="article-metadata">
             <a class="mr-2" href="#">{{cast.spell.name}} - Lv. {{cast.level}}</a>
-            <small class="text-muted">{{cast.spell.damage.base}} {{cast.spell.damage.type}} ({{cast.damage.expected}})</small>
           </div>
           <div class="article-title">
-            <h2 class="mr-2">{{cast.roll}} to hit! </h2>
+            <h2 class="mr-2">{{cast.roll}}</h2>
           </div>
-          <p class="article-content">{{cast.damage}}</p>
         </div>
       </article>
-    {% else %}
-      <article class="media content-section">
-        <div class="media-body">
-          <div class="article-metadata">
-            <a class="mr-2" href="#">{{cast.spell.name}} - Lv. {{cast.level}}</a>
-            <small class="text-muted">{{cast.spell.damage.base}} {{cast.spell.damage.type}} ({{cast.damage.expected}})</small>
-          </div>
-          <div class="article-title">
-            <h2 class="mr-2">Make a {{cast.spell.damage.save}} {{cast.save_dc}} save! </h2>
-          </div>
-          <p class="article-content">{{cast.damage}}</p>
-        </div>
-      </article>
-    {% endif %}
-    <div class="content-section">
-     <form method="POST" action="">
-         {{ form.hidden_tag() }}
-         <fieldset class="form-group">
-             <div class="form-group">
-                 {{ form.empower.label(class="form-control-label")}}
-                 {{ form.empower(class="form-control") }}
-             </div>
-         </fieldset>
-         <div class="form-group">
-             {{ form.submit(class="btn btn-outline-info") }}
-         </div>
-     </form>
- </div>
+  {% endfor %}
 {% endblock content %}

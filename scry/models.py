@@ -1,4 +1,5 @@
 from scry import db
+import sys
 
 class Character(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +35,8 @@ class Spell(db.Model):
     range_value = db.Column(db.Integer)
     duration_value = db.Column(db.Integer)
     at_higher_levels_obj = db.Column(db.PickleType)
+    # -- Relationships --
+    # casts = db.relationship('CastInstance', backref='spell', lazy=True)
     # -- Actions --
     action_resource = db.Column(db.Boolean, nullable=False)
     resource = db.Column(db.PickleType)
@@ -59,6 +62,24 @@ class Damage(db.Model):
     size_shape = db.Column(db.Integer)
     size_value = db.Column(db.Integer)
 
+class CastInstance(db.Model):
+    id = db.Column(db.Integer, unique=True, primary_key=True)
+    # spell_id = db.Column(db.Integer, db.ForeignKey('spell.id'), nullable=False)
+    spell = db.Column(db.PickleType, nullable=False)
+    level = db.Column(db.Integer, nullable=False)
+    roll = db.Column(db.Integer)
+    advantage = db.Column(db.Integer)
+    disadvantage = db.Column(db.Integer)
+    damage = db.Column(db.PickleType)  # DiceRoll Object
+    # -- Character Reference --
+    spell_attack_mod = db.Column(db.Integer)
+    spell_save_dc = db.Column(db.Integer)
+
+class Log(db.Model):
+    id = db.Column(db.Integer, unique=True, primary_key=True)
+    title = db.Column(db.String(20), nullable=False)
+    message = db.Column(db.String(20), nullable=False)
+    information = db.Column(db.String(200), nullable=False)
 
 class Resource(db.Model):
     """
@@ -98,7 +119,7 @@ class InstantEffect():
 class ActiveEffect(db.Model):
     """
     "Active Effects" are inheriently things that temporarily affect
-    the player and can be dismissed without permanent effect. This
+    the player and can be dismissed without permanentTeffect. This
     primarily includes abilities from spells or items, but also
     encompasses conditions.
 
