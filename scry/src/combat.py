@@ -6,11 +6,6 @@ from scry.src.dice import DiceRoll, roll
 import scry.src.dice as dice
 
 
-class Data:
-    def __init__(self, yamlfile):
-        self.spellfile = open(yamlfile)
-        self.spells = yaml.load(self.spellfile, Loader=yaml.FullLoader)
-
 class CastInstance:
     def __init__(self, spell, casting_level):
         self.spell = spell
@@ -182,6 +177,5 @@ def action_menu():
 
 
 if __name__ == "__main__":
-    data = Data("static/Data/spells.yml")
     player = Player()
     action_menu()

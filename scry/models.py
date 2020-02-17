@@ -12,7 +12,9 @@ class Character(db.Model):
 
 class Spell(db.Model):
     """
-    Note: *_display not used mechanically (UI Viz Only).
+    "Spells" are used by spellcasters to perform a combination of actions.
+    Such as: creating resources or effects, dealing damage, etc.
+    Note: *_display variables are not used mechanically.
     Note: There is no error checking. (i.e. MageArmor while in Armor)
     """
     # -- Data --
@@ -71,11 +73,6 @@ class Resource(db.Model):
     ?: Should potions be considered resources?
 
     Examples: 'Crown of Stars', 'Favored by the Gods', 'Sorcery Points'
-
-    Regeneration:
-        0. Doesn't Regenerate
-        1. Short Rest
-        2. Long Rest
     """
     id = db.Column(db.Integer, unique=True, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
@@ -85,8 +82,8 @@ class Resource(db.Model):
     count_available = db.Column(db.Integer, nullable=False)
     rounds_max = db.Column(db.Integer)
     rounds_active = db.Column(db.Integer)
+    casting_time_value = db.Column(db.String(1))
     # OWNER Foreign Key to Character for display/deletion
-    #
 
     def __repr__(self):
         return f"Resource('{self.name}')"
@@ -104,6 +101,8 @@ class ActiveEffect(db.Model):
     the player and can be dismissed without permanent effect. This
     primarily includes abilities from spells or items, but also
     encompasses conditions.
+
+    ?: Is concentration an active effect?
     """
     id = db.Column(db.Integer, unique=True, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
